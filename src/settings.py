@@ -9,7 +9,7 @@ BG_COLORS = {
     "dark_purple": (20, 0, 40),
     "dark_green":  (0, 20, 10),
 }
-
+# difficulty levels: easy, medium, hard
 DIFFICULTY_SETTINGS = {
     "easy": {
         "ball_speed": 5,
