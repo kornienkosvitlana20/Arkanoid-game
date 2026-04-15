@@ -58,3 +58,4 @@ class Brick:
         # Border
         pygame.draw.rect(surface, tuple(min(255, c + 40) for c in color),
                          rect, 2, border_radius=4)
+# collision detection with bricks
