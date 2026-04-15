@@ -21,7 +21,7 @@ class GameState:
     GAME_OVER = "game_over"
     WIN = "win"
 
-
+# multi-level progression
 class Game:
     """Main game controller - manages state, loop, events."""
 
