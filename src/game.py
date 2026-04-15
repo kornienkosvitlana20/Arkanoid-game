@@ -1,8 +1,4 @@
-"""
-Game module - main game loop and state management
-Author: Player1 (Game Logic) + Player2 (UI integration)
-"""
-
+# система підрахунку очок
 import pygame
 import sys
 from settings import Settings
