@@ -53,6 +53,7 @@ class Ball:
         """Check if ball fell below screen."""
         return self.y - self.radius > self.settings.SCREEN_HEIGHT
 
+    # angle-based paddle collision
     def check_paddle_collision(self, paddle):
         """Handle collision with paddle with angle reflection."""
         if not self.active:
