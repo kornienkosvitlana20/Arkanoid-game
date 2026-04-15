@@ -7,7 +7,7 @@ import pygame
 import math
 import random
 
-
+# Ball: handles movement and physics
 class Ball:
     """Represents the game ball with physics."""
 
