@@ -5,7 +5,7 @@ Author: Player1 (Game Logic) + Player2 (Rendering)
 
 import pygame
 
-
+# Brick: single brick with HP system
 class Brick:
     """Single brick with HP, color, and score value."""
 
