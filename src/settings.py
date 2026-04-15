@@ -1,8 +1,4 @@
-"""
-Settings module - handles all game configuration
-Author: Player2 (UI/Configuration)
-"""
-
+# рівні складності
 BG_COLORS = {
     "dark_blue":   (10, 10, 40),
     "black":       (0, 0, 0),
