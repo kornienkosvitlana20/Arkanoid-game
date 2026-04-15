@@ -11,7 +11,7 @@ from paddle import Paddle
 from brick_grid import BrickGrid
 from ui import UI
 
-
+# scoring system
 class GameState:
     START = "start"
     PLAYING = "playing"
