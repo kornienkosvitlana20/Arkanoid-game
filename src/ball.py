@@ -1,8 +1,4 @@
-"""
-Ball module - ball physics and collision logic
-Author: Player1 (Game Logic)
-"""
-
+# визначення втрати м'яча
 import pygame
 import math
 import random
