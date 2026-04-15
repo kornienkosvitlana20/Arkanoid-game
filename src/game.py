@@ -12,6 +12,7 @@ from brick_grid import BrickGrid
 from ui import UI
 
 # scoring system
+# GameState machine
 class GameState:
     START = "start"
     PLAYING = "playing"
