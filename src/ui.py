@@ -1,3 +1,4 @@
+# UI: фон та сітка
 """
 UI module - HUD, menus, and all screen rendering
 Author: Player2 (UI/Graphics)
