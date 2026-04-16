@@ -1,3 +1,4 @@
+# М'яч: ефект світіння
 """
 Ball module - ball physics and collision logic
 Author: Player1 (Game Logic)
