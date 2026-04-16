@@ -1,3 +1,4 @@
+# Налаштування: всі константи гри
 """
 Settings module - handles all game configuration
 Author: Player2 (UI/Configuration)
