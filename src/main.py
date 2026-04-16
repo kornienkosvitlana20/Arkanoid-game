@@ -1,3 +1,4 @@
+# Головний файл: argparse аргументи
 """
 Arkanoid Game - Main Entry Point
 Author: Team (Player1 - Game Logic, Player2 - UI/Graphics)
