@@ -9,8 +9,8 @@
 
 | Учасник | Гілка | Відповідальність |
 |---------|-------|-----------------|
-| **Player 1** (Іванов Іван) | `feature/game-logic` | Ігрова логіка: Ball, Paddle, Brick, BrickGrid, Game |
-| **Player 2** (Петренко Петро) | `feature/ui-graphics` | UI/Графіка: UI (HUD, меню, екрани), Settings, main.py |
+| **Player 1** (Корнієнко Світлана) | `feature/game-logic` | Ігрова логіка: Ball, Paddle, Brick, BrickGrid, Game |
+| **Player 2** (Вялкова Поліна) | `feature/ui-graphics` | UI/Графіка: UI (HUD, меню, екрани), Settings, main.py |
 
 ---
 
@@ -115,7 +115,7 @@ arkanoid/
 
 ## 🌿 Git Workflow (для двох учасників)
 
-### Перший раз (Player 1 — створює репо)
+### Перший раз (Player 1 — створює репозиторій)
 
 ```bash
 git init
