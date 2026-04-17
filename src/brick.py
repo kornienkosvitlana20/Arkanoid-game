@@ -6,7 +6,7 @@ Author: Player1 (Game Logic) + Player2 (Rendering)
 
 import pygame
 
-
+# Brick: single brick with HP system
 class Brick:
     """Single brick with HP, color, and score value."""
 
@@ -59,3 +59,4 @@ class Brick:
         # Border
         pygame.draw.rect(surface, tuple(min(255, c + 40) for c in color),
                          rect, 2, border_radius=4)
+# collision detection with bricks

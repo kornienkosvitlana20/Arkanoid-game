@@ -1,8 +1,4 @@
-"""
-Game module - main game loop and state management
-Author: Player1 (Game Logic) + Player2 (UI integration)
-"""
-
+# система підрахунку очок
 import pygame
 import sys
 from settings import Settings
@@ -11,7 +7,8 @@ from paddle import Paddle
 from brick_grid import BrickGrid
 from ui import UI
 
-
+# scoring system
+# GameState machine
 class GameState:
     START = "start"
     PLAYING = "playing"
@@ -21,7 +18,7 @@ class GameState:
     GAME_OVER = "game_over"
     WIN = "win"
 
-
+# multi-level progression
 class Game:
     """Main game controller - manages state, loop, events."""
 
