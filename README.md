@@ -1,11 +1,11 @@
-# 🎮 Arkanoid — Python + Pygame
+# Arkanoid — Python + Pygame
 
 > Лабораторна робота: Pipeline CI/CD — Plan, Code, Build  
 > Гра: **Arkanoid** | Рівень: Стандартний 
 
 ---
 
-## 👥 Команда
+## Команда
 
 | Учасник | Гілка | Відповідальність |
 |---------|-------|-----------------|
@@ -14,7 +14,7 @@
 
 ---
 
-## 📐 Архітектура (UML)
+## Архітектура (UML)
 
 ```
 main.py
@@ -34,7 +34,7 @@ main.py
 
 ---
 
-## 🚀 Запуск
+## Запуск
 
 ### Встановлення
 
@@ -77,7 +77,7 @@ python main.py --difficulty hard --bg-color dark_purple --lives 1
 
 ---
 
-## 🎮 Керування
+## Керування
 
 | Клавіша | Дія |
 |---------|-----|
@@ -90,7 +90,7 @@ python main.py --difficulty hard --bg-color dark_purple --lives 1
 
 ---
 
-## 📁 Структура проекту
+## Структура проекту
 
 ```
 arkanoid/
@@ -113,7 +113,7 @@ arkanoid/
 
 ---
 
-## 🌿 Git Workflow 
+## Git Workflow 
 
 ### Перший раз (Player 1 — створює репозиторій)
 
@@ -244,7 +244,7 @@ git push
 
 ---
 
-## 🏗️ Етапи Pipeline CI/CD
+## Етапи Pipeline CI/CD
 
 ### Plan
 - Аналіз гри Arkanoid
@@ -263,7 +263,7 @@ git push
 
 ---
 
-## 🎯 Вимоги до оцінювання
+## Вимоги до оцінювання
 
 - [x] Графічний інтерфейс (pygame)
 - [x] Принципи DRY, KISS, SOLID
