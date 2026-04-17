@@ -1,4 +1,9 @@
-# визначення втрати м'яча
+# М'яч: ефект світіння
+"""
+Ball module - ball physics and collision logic
+Author: Player1 (Game Logic)
+"""
+
 import pygame
 import math
 import random

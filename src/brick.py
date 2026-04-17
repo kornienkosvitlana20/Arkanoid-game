@@ -1,3 +1,4 @@
+# Цеглина: ефект тріщини
 """
 Brick module - brick logic and rendering
 Author: Player1 (Game Logic) + Player2 (Rendering)

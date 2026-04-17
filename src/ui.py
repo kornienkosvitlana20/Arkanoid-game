@@ -1,3 +1,8 @@
+# UI: фон та сітка
+# UI: HUD з очками та життями
+# UI: стартовий екран
+# UI: екран паузи
+# UI: екран програшу та перемоги
 """
 UI module - HUD, menus, and all screen rendering
 Author: Player2 (UI/Graphics)

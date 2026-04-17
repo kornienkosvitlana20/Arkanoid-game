@@ -1,3 +1,4 @@
+# Платформа: підсвічування та рамка
 """
 Paddle module - player-controlled paddle
 Author: Player1 (Game Logic)
