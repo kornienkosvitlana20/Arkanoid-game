@@ -1,7 +1,7 @@
 # 🎮 Arkanoid — Python + Pygame
 
 > Лабораторна робота: Pipeline CI/CD — Plan, Code, Build  
-> Гра: **Arkanoid** | Рівень: Стандартний (max 10 балів)
+> Гра: **Arkanoid** | Рівень: Стандартний 
 
 ---
 
@@ -113,7 +113,7 @@ arkanoid/
 
 ---
 
-## 🌿 Git Workflow (для двох учасників)
+## 🌿 Git Workflow 
 
 ### Перший раз (Player 1 — створює репозиторій)
 
@@ -126,7 +126,7 @@ git remote add origin https://github.com/<your-org>/arkanoid.git
 git push -u origin main
 ```
 
-### Player 1 — Ігрова логіка
+### Player 1 — Ігрова логіка 
 
 ```bash
 git checkout -b feature/game-logic
@@ -174,7 +174,7 @@ git commit -m "feat(logic): implement GameState machine (start, playing, paused,
 git push origin feature/game-logic
 ```
 
-### Player 2 — UI/Graphics
+### Player 2 — UI/Graphics ( Діаграми)
 
 ```bash
 git checkout main
@@ -224,7 +224,7 @@ git commit -m "feat(ui): add argparse for difficulty, bg-color, lives, fullscree
 git push origin feature/ui-graphics
 ```
 
-### Злиття гілок (виконує Player 1 або разом)
+### Злиття гілок (разом)
 
 ```bash
 git checkout main
