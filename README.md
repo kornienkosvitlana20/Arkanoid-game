@@ -1,7 +1,7 @@
 # Arkanoid — Python + Pygame
 
 > Лабораторна робота: Pipeline CI/CD — Plan, Code, Build  
-> Гра: **Arkanoid** | Рівень: Стандартний (max 10 балів)
+> Гра: **Arkanoid** | Рівень: Стандартний 
 
 ---
 
