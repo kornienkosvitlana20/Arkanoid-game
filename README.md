@@ -1,6 +1,6 @@
-# Arkanoid — Python + Pygame
+# Arkanoid - Python + Pygame
 
-> Лабораторна робота: Pipeline CI/CD — Plan, Code, Build  
+> Лабораторна робота: Pipeline CI/CD - Plan, Code, Build  
 > Гра: **Arkanoid** | Рівень: Стандартний 
 
 ---
@@ -28,9 +28,9 @@ main.py
 ```
 
 **Принципи проектування:**
-- **DRY** — кольори, розміри, швидкості зібрані в `Settings`, не дублюються
-- **KISS** — кожен клас відповідає за одну річ
-- **SOLID** — Single Responsibility: `Ball` = фізика, `UI` = рендер, `Game` = стан
+- **DRY** - кольори, розміри, швидкості зібрані в `Settings`, не дублюються
+- **KISS** - кожен клас відповідає за одну річ
+- **SOLID** - Single Responsibility: `Ball` = фізика, `UI` = рендер, `Game` = стан
 
 ---
 
@@ -115,7 +115,7 @@ arkanoid/
 
 ## Git Workflow 
 
-### Перший раз (Player 1 — створює репозиторій)
+### Перший раз (Player 1 - створює репозиторій)
 
 ```bash
 git init
@@ -126,7 +126,7 @@ git remote add origin https://github.com/<your-org>/arkanoid.git
 git push -u origin main
 ```
 
-### Player 1 — Ігрова логіка 
+### Player 1 - Ігрова логіка 
 
 ```bash
 git checkout -b feature/game-logic
@@ -174,7 +174,7 @@ git commit -m "feat(logic): implement GameState machine (start, playing, paused,
 git push origin feature/game-logic
 ```
 
-### Player 2 — UI/Graphics ( Діаграми)
+### Player 2 - UI/Graphics ( Діаграми)
 
 ```bash
 git checkout main
