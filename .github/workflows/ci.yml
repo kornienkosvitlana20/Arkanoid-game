@@ -65,7 +65,6 @@ jobs:
           SDL_VIDEODRIVER: dummy
           SDL_AUDIODRIVER: dummy
         run: |
-          cd arkanoid
           pytest tests/ \
             -v \
             --tb=short \
