@@ -5,16 +5,15 @@ Author: Player 1 — Корнієнко Світлана
 import math
 import pytest
 import pygame
-
-pygame.init()  
-
 import sys
 import os
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
 from ball import Ball
 from settings import Settings
 
+pygame.init()
 
 # ── Фікстури ──────────────────────────────────────────────────────────────
 
