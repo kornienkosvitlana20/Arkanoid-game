@@ -9,6 +9,8 @@ from ui import UI
 
 # scoring system
 # GameState machine
+
+
 class GameState:
     START = "start"
     PLAYING = "playing"
@@ -19,6 +21,8 @@ class GameState:
     WIN = "win"
 
 # multi-level progression
+
+
 class Game:
     """Main game controller - manages state, loop, events."""
 

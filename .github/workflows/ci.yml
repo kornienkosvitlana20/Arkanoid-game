@@ -1,0 +1,66 @@
+name: CI/CD Pipeline – Test & Lint
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  test-and-lint:
+    name: Pytest + Flake8
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout ─────────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── 2. Set up Python ────────────────────────────────────────────────────
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      # ── 3. Install system deps for pygame (headless) ────────────────────────
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y \
+            libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev \
+            libfreetype6-dev libportmidi-dev python3-dev \
+            xvfb
+
+      # ── 4. Install Python dependencies ──────────────────────────────────────
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      # ── 5. Run Pytest with HTML report ──────────────────────────────────────
+      - name: Run tests
+        env:
+          SDL_VIDEODRIVER: dummy
+          SDL_AUDIODRIVER: dummy
+        run: |
+          pytest tests/ \
+            --html=reports/pytest_report.html \
+            --self-contained-html \
+            -v
+
+      # ── 6. Run Flake8 with HTML report ──────────────────────────────────────
+      - name: Run Flake8 lint
+        run: |
+          pip install flake8-html
+          flake8 src/ tests/ \
+            --format=html \
+            --htmldir=reports/flake8_report \
+            || true   # don't fail the pipeline on style warnings
+
+      # ── 7. Upload reports as artifacts ──────────────────────────────────────
+      - name: Upload test & lint reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-reports
+          path: reports/
+          retention-days: 14

@@ -7,6 +7,8 @@ Author: Player1 (Game Logic) + Player2 (Rendering)
 import pygame
 
 # Brick: single brick with HP system
+
+
 class Brick:
     """Single brick with HP, color, and score value."""
 
@@ -47,7 +49,6 @@ class Brick:
 
         # Crack effect for damaged bricks
         if self.hp < self.max_hp:
-            crack_color = (255, 255, 255, 80)
             cx, cy = rect.centerx, rect.centery
             pygame.draw.line(surface, (50, 50, 50), (cx - 5, cy - 5), (cx + 3, cy + 3), 2)
             pygame.draw.line(surface, (50, 50, 50), (cx, cy - 6), (cx - 4, cy + 4), 2)
