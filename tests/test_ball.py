@@ -6,6 +6,7 @@ import math
 import pytest
 import pygame
 
+pygame.init()  
 
 import sys
 import os
