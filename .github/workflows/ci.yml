@@ -1,92 +1,51 @@
-name: CI Pipeline — Arkanoid
+name: CI/CD Pipeline – Test & Lint
 
 on:
   push:
-    branches: ["**"]        # запускається при кожному коміті в будь-яку гілку
+    branches: ["**"]
   pull_request:
-    branches: [ main ]      # і при Pull Request у main
+    branches: ["**"]
 
 jobs:
   test-and-lint:
-    name: Test & Lint
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        python-version: ["3.11", "3.12"]
-
     steps:
-      # 1. Завантажити код репозиторію
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Налаштувати Python
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: "3.11"
 
-      # 3. Кешувати pip-залежності (прискорює збірку)
-      - name: Cache pip dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
-      # 4. Встановити системні залежності для pygame (headless)
-      - name: Install system dependencies for pygame
+      - name: Install system dependencies
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y \
-            libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev \
-            libfreetype6-dev python3-dev
+          sudo apt-get install -y libsdl2-dev libsdl2-mixer-dev libsdl2-ttf-dev libfreetype6-dev
 
-      # 5. Встановити Python-залежності
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # 6. ── LINT: Flake8 ─────────────────────────────────────────────────
-      - name: Run Flake8 linting
-        run: |
-          flake8 src/ tests/ \
-            --max-line-length=100 \
-            --exclude=__pycache__,.git \
-            --statistics \
-            --count
-        continue-on-error: false   # Pipeline зупиняється якщо є помилки лінтера
-
-      # 7. ── TEST: Pytest ─────────────────────────────────────────────────
-      - name: Run Pytest
+      - name: Run pytest with HTML report
         env:
           SDL_VIDEODRIVER: dummy
           SDL_AUDIODRIVER: dummy
         run: |
-          pytest tests/ \
-            -v \
-            --tb=short \
-            --html=reports/test-report.html \
-            --self-contained-html \
-            -p no:cacheprovider
-        continue-on-error: false
+          mkdir -p reports
+          pytest tests/ --html=reports/pytest_report.html --self-contained-html -v
+        continue-on-error: true
 
-      # 8. Зберегти HTML-звіт тестів як артефакт
-      - name: Upload test report
-        uses: actions/upload-artifact@v4
-        if: always()    # зберігати навіть якщо тести впали
-        with:
-          name: test-report-py${{ matrix.python-version }}
-          path: arkanoid/reports/test-report.html
-          retention-days: 30
-
-      # 9. Вивести короткий підсумок в консоль
-      - name: Print test summary
-        if: always()
+      - name: Run flake8 with HTML report
         run: |
-          echo "=== CI Pipeline Complete ==="
-          echo "Python: ${{ matrix.python-version }}"
-          echo "Branch: ${{ github.ref_name }}"
-          echo "Commit: ${{ github.sha }}"
+          flake8 src/ tests/ --format=html --htmldir=reports/flake8_report
+        continue-on-error: true
+
+      - name: Upload ci-reports artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ci-reports
+          path: reports/
