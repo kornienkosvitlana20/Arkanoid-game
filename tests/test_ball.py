@@ -17,6 +17,7 @@ pygame.init()
 
 # ── Фікстури ──────────────────────────────────────────────────────────────
 
+
 @pytest.fixture
 def settings():
     return Settings(difficulty="medium")
@@ -36,10 +37,12 @@ def active_ball(ball):
 
 # ── Маркери ───────────────────────────────────────────────────────────────
 
+
 pytestmark = pytest.mark.ball  # всі тести цього файлу позначені маркером "ball"
 
 
 # ── Тести початкового стану ───────────────────────────────────────────────
+
 
 class TestBallInit:
     """Перевірка початкового стану після reset."""
@@ -276,7 +279,6 @@ class TestBallBrickCollision:
         assert score == 0
 
     def test_only_one_brick_per_frame(self, active_ball):
-        """За один кадр м'яч б'ється лише об одну цеглину."""
         from brick import Brick
         bricks = []
         for i in range(3):
@@ -300,7 +302,6 @@ class TestBallBrickCollision:
     ])
     def test_score_by_brick_hp(self, active_ball, hp, expected_score):
         """Очки залежать від початкового HP цеглини."""
-        from brick import Brick
         brick = Brick(100, 100, (200, 200, 200), hp=hp)
         brick.width = 70
         brick.height = 22
