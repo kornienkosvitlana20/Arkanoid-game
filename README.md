@@ -1,11 +1,11 @@
-# 🎮 Arkanoid — Python + Pygame
+# Arkanoid - Python + Pygame
 
-> Лабораторна робота: Pipeline CI/CD — Plan, Code, Build  
-> Гра: **Arkanoid** | Рівень: Стандартний (max 10 балів)
+> Лабораторна робота: Pipeline CI/CD - Plan, Code, Build  
+> Гра: **Arkanoid** | Рівень: Стандартний 
 
 ---
 
-## 👥 Команда
+## Команда
 
 | Учасник | Гілка | Відповідальність |
 |---------|-------|-----------------|
@@ -14,7 +14,7 @@
 
 ---
 
-## 📐 Архітектура (UML)
+## Архітектура (UML)
 
 ```
 main.py
@@ -28,13 +28,13 @@ main.py
 ```
 
 **Принципи проектування:**
-- **DRY** — кольори, розміри, швидкості зібрані в `Settings`, не дублюються
-- **KISS** — кожен клас відповідає за одну річ
-- **SOLID** — Single Responsibility: `Ball` = фізика, `UI` = рендер, `Game` = стан
+- **DRY** - кольори, розміри, швидкості зібрані в `Settings`, не дублюються
+- **KISS** - кожен клас відповідає за одну річ
+- **SOLID** - Single Responsibility: `Ball` = фізика, `UI` = рендер, `Game` = стан
 
 ---
 
-## 🚀 Запуск
+## Запуск
 
 ### Встановлення
 
@@ -77,7 +77,7 @@ python main.py --difficulty hard --bg-color dark_purple --lives 1
 
 ---
 
-## 🎮 Керування
+## Керування
 
 | Клавіша | Дія |
 |---------|-----|
@@ -90,7 +90,7 @@ python main.py --difficulty hard --bg-color dark_purple --lives 1
 
 ---
 
-## 📁 Структура проекту
+## Структура проекту
 
 ```
 arkanoid/
@@ -113,9 +113,9 @@ arkanoid/
 
 ---
 
-## 🌿 Git Workflow (для двох учасників)
+## Git Workflow 
 
-### Перший раз (Player 1 — створює репозиторій)
+### Перший раз (Player 1 - створює репозиторій)
 
 ```bash
 git init
@@ -126,7 +126,7 @@ git remote add origin https://github.com/<your-org>/arkanoid.git
 git push -u origin main
 ```
 
-### Player 1 — Ігрова логіка
+### Player 1 - Ігрова логіка 
 
 ```bash
 git checkout -b feature/game-logic
@@ -174,7 +174,7 @@ git commit -m "feat(logic): implement GameState machine (start, playing, paused,
 git push origin feature/game-logic
 ```
 
-### Player 2 — UI/Graphics
+### Player 2 - UI/Graphics ( Діаграми)
 
 ```bash
 git checkout main
@@ -224,7 +224,7 @@ git commit -m "feat(ui): add argparse for difficulty, bg-color, lives, fullscree
 git push origin feature/ui-graphics
 ```
 
-### Злиття гілок (виконує Player 1 або разом)
+### Злиття гілок (разом)
 
 ```bash
 git checkout main
@@ -244,7 +244,7 @@ git push
 
 ---
 
-## 🏗️ Етапи Pipeline CI/CD
+## Етапи Pipeline CI/CD
 
 ### Plan
 - Аналіз гри Arkanoid
@@ -262,8 +262,9 @@ git push
 - Перевірка запуску з різними аргументами CLI
 
 ---
+<!-- trigger CI -->
 
-## 🎯 Вимоги до оцінювання
+## Вимоги до оцінювання
 
 - [x] Графічний інтерфейс (pygame)
 - [x] Принципи DRY, KISS, SOLID

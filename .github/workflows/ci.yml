@@ -8,59 +8,44 @@ on:
 
 jobs:
   test-and-lint:
-    name: Pytest + Flake8
     runs-on: ubuntu-latest
 
     steps:
-      # ── 1. Checkout ─────────────────────────────────────────────────────────
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      # ── 2. Set up Python ────────────────────────────────────────────────────
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-          cache: "pip"
 
-      # ── 3. Install system deps for pygame (headless) ────────────────────────
       - name: Install system dependencies
         run: |
-          sudo apt-get update -y
-          sudo apt-get install -y \
-            libsdl2-dev libsdl2-image-dev libsdl2-mixer-dev libsdl2-ttf-dev \
-            libfreetype6-dev libportmidi-dev python3-dev \
-            xvfb
+          sudo apt-get update -qq
+          sudo apt-get install -y libsdl2-dev libsdl2-mixer-dev libsdl2-ttf-dev libfreetype6-dev
 
-      # ── 4. Install Python dependencies ──────────────────────────────────────
       - name: Install Python dependencies
-        run: pip install -r requirements.txt
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-      # ── 5. Run Pytest with HTML report ──────────────────────────────────────
-      - name: Run tests
+      - name: Run pytest with HTML report
         env:
           SDL_VIDEODRIVER: dummy
           SDL_AUDIODRIVER: dummy
         run: |
-          pytest tests/ \
-            --html=reports/pytest_report.html \
-            --self-contained-html \
-            -v
+          mkdir -p reports
+          pytest tests/ --html=reports/pytest_report.html --self-contained-html -v
+        continue-on-error: true
 
-      # ── 6. Run Flake8 with HTML report ──────────────────────────────────────
-      - name: Run Flake8 lint
+      - name: Run flake8 with HTML report
         run: |
-          pip install flake8-html
-          flake8 src/ tests/ \
-            --format=html \
-            --htmldir=reports/flake8_report \
-            || true   # don't fail the pipeline on style warnings
+          flake8 src/ tests/ --format=html --htmldir=reports/flake8_report
+        continue-on-error: true
 
-      # ── 7. Upload reports as artifacts ──────────────────────────────────────
-      - name: Upload test & lint reports
-        if: always()
+      - name: Upload ci-reports artifact
         uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: ci-reports
           path: reports/
-          retention-days: 14

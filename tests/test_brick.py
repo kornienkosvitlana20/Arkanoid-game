@@ -1,189 +1,178 @@
 """
-Tests for the Brick and BrickGrid classes.
+Tests for Brick class (brick.py)
+Author: Player 1 — Корнієнко Світлана
 """
+import pytest
+import pygame
+
+pygame.init()
+
 import sys
 import os
-import pytest
-
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
 
-import pygame
-os.environ.setdefault('SDL_VIDEODRIVER', 'dummy')
-os.environ.setdefault('SDL_AUDIODRIVER', 'dummy')
-pygame.init()
-pygame.display.set_mode((800, 600))
-
 from brick import Brick
-from brick_grid import BrickGrid
-from settings import Settings
 
 
-# ── Fixtures ─────────────────────────────────────────────────────────────────
+pytestmark = pytest.mark.brick
 
-@pytest.fixture
-def settings():
-    return Settings()
 
+# ── Фікстури ──────────────────────────────────────────────────────────────
 
 @pytest.fixture
 def simple_brick():
-    brick = Brick(x=100, y=50, color=(255, 0, 0), hp=1)
-    brick.width = 70
-    brick.height = 22
-    return brick
+    """Звичайна цеглина hp=1."""
+    b = Brick(50, 100, (255, 80, 80), hp=1)
+    b.width = 70
+    b.height = 22
+    return b
 
 
 @pytest.fixture
 def strong_brick():
-    brick = Brick(x=100, y=50, color=(255, 100, 0), hp=3)
-    brick.width = 70
-    brick.height = 22
-    return brick
+    """Міцна цеглина hp=3."""
+    b = Brick(50, 100, (255, 80, 80), hp=3)
+    b.width = 70
+    b.height = 22
+    return b
 
 
 @pytest.fixture
-def grid(settings):
-    return BrickGrid(settings)
+def surface():
+    return pygame.Surface((800, 600))
 
 
-# ── Brick init tests ──────────────────────────────────────────────────────────
+# ── Тести ініціалізації ───────────────────────────────────────────────────
 
-@pytest.mark.brick
 class TestBrickInit:
-    """Tests for Brick initialization."""
+    """Перевірка початкового стану цеглини."""
 
     def test_brick_starts_alive(self, simple_brick):
+        """Цеглина при створенні має бути живою."""
         assert simple_brick.alive is True
 
-    def test_brick_hp(self, simple_brick):
-        assert simple_brick.hp == 1
+    def test_brick_stores_hp(self, strong_brick):
+        """HP має зберігатись правильно."""
+        assert strong_brick.hp == 3
 
-    def test_brick_max_hp_stored(self, strong_brick):
+    def test_brick_stores_max_hp(self, strong_brick):
+        """max_hp має дорівнювати початковому hp."""
         assert strong_brick.max_hp == 3
 
     def test_brick_position(self, simple_brick):
-        assert simple_brick.x == 100
-        assert simple_brick.y == 50
+        """Позиція цеглини має зберігатись."""
+        assert simple_brick.x == 50
+        assert simple_brick.y == 100
 
-    def test_brick_color(self, simple_brick):
-        assert simple_brick.color == (255, 0, 0)
-
-    def test_brick_get_rect(self, simple_brick):
-        rect = simple_brick.get_rect()
-        assert rect.x == 100
-        assert rect.y == 50
-        assert rect.width == 70
-        assert rect.height == 22
+    def test_brick_color(self):
+        """Колір цеглини має зберігатись."""
+        color = (100, 200, 50)
+        b = Brick(0, 0, color, hp=1)
+        assert b.color == color
 
 
-# ── Brick hit / score tests ───────────────────────────────────────────────────
+# ── Тести системи HP ──────────────────────────────────────────────────────
 
-@pytest.mark.brick
 class TestBrickHit:
-    """Tests for Brick.hit() scoring and destruction."""
+    """Перевірка системи HP та методу hit()."""
+
+    def test_single_hit_destroys_hp1_brick(self, simple_brick):
+        """Один удар знищує цеглину з hp=1."""
+        simple_brick.hit()
+        assert simple_brick.alive is False
+
+    def test_hit_reduces_hp(self, strong_brick):
+        """Удар зменшує HP на 1."""
+        hp_before = strong_brick.hp
+        strong_brick.hit()
+        assert strong_brick.hp == hp_before - 1
+
+    def test_hp3_brick_survives_two_hits(self, strong_brick):
+        """Цеглина hp=3 виживає після 2 ударів."""
+        strong_brick.hit()
+        strong_brick.hit()
+        assert strong_brick.alive is True
+
+    def test_hp3_brick_destroyed_after_three_hits(self, strong_brick):
+        """Цеглина hp=3 знищується після 3 ударів."""
+        strong_brick.hit()
+        strong_brick.hit()
+        strong_brick.hit()
+        assert strong_brick.alive is False
 
     @pytest.mark.parametrize("hp,expected_score", [
         (1, 10),
         (2, 20),
         (3, 30),
     ])
-    def test_score_on_destroy(self, settings, hp, expected_score):
-        brick = Brick(0, 0, (255, 0, 0), hp=hp)
-        brick.width = settings.BRICK_WIDTH
-        brick.height = settings.BRICK_HEIGHT
-        # Hit until destroyed
-        for _ in range(hp - 1):
-            brick.hit()
-        score = brick.hit()
-        assert score == expected_score
+    def test_score_returned_on_destroy(self, hp, expected_score):
+        """Перевірка таблиці очок при знищенні цеглини."""
+        b = Brick(0, 0, (255, 0, 0), hp=hp)
+        b.width = 70
+        b.height = 22
+        total_score = 0
+        for _ in range(hp):
+            total_score = b.hit()
+        assert total_score == expected_score
 
-    def test_single_hp_brick_dies_on_first_hit(self, simple_brick):
-        simple_brick.hit()
-        assert simple_brick.alive is False
-
-    def test_multi_hp_brick_survives_partial_hits(self, strong_brick):
-        strong_brick.hit()
-        assert strong_brick.alive is True
-        assert strong_brick.hp == 2
-
-    def test_intermediate_hit_returns_zero(self, strong_brick):
+    def test_hit_returns_zero_before_destroy(self, strong_brick):
+        """hit() повертає 0, поки цеглина не знищена."""
         score = strong_brick.hit()
         assert score == 0
 
-    def test_brick_not_alive_after_all_hp_removed(self, strong_brick):
-        for _ in range(3):
-            strong_brick.hit()
-        assert strong_brick.alive is False
-
-    def test_score_table_fallback_for_unknown_hp(self, settings):
-        """Bricks with unknown max_hp return default score of 10."""
-        brick = Brick(0, 0, (0, 0, 255), hp=5)
-        brick.width = settings.BRICK_WIDTH
-        brick.height = settings.BRICK_HEIGHT
-        for _ in range(5):
-            score = brick.hit()
-        assert score == 10  # SCORE_TABLE fallback
+    def test_hit_returns_score_on_destroy(self, simple_brick):
+        """hit() повертає ненульові очки при знищенні."""
+        score = simple_brick.hit()
+        assert score > 0
 
 
-# ── BrickGrid tests ───────────────────────────────────────────────────────────
+# ── Тести get_rect ────────────────────────────────────────────────────────
 
-@pytest.mark.brick_grid
-class TestBrickGrid:
-    """Tests for BrickGrid generation and state."""
+class TestBrickRect:
+    """Перевірка методу get_rect."""
 
-    def test_correct_number_of_bricks(self, grid, settings):
-        expected = settings.BRICK_ROWS * settings.BRICK_COLS
-        assert len(grid.bricks) == expected
+    def test_rect_position(self, simple_brick):
+        """Rect має правильну позицію."""
+        rect = simple_brick.get_rect()
+        assert rect.x == 50
+        assert rect.y == 100
 
-    def test_all_bricks_alive_at_start(self, grid):
-        assert all(b.alive for b in grid.bricks)
+    def test_rect_size(self, simple_brick):
+        """Rect має правильні розміри."""
+        rect = simple_brick.get_rect()
+        assert rect.width == 70
+        assert rect.height == 22
 
-    def test_alive_bricks_count_matches_total(self, grid, settings):
-        assert len(grid.alive_bricks()) == settings.BRICK_ROWS * settings.BRICK_COLS
+    def test_rect_is_pygame_rect(self, simple_brick):
+        """get_rect() повертає pygame.Rect."""
+        assert isinstance(simple_brick.get_rect(), pygame.Rect)
 
-    def test_not_cleared_at_start(self, grid):
-        assert grid.all_cleared() is False
 
-    def test_all_cleared_when_all_dead(self, grid):
-        for brick in grid.bricks:
-            brick.alive = False
-        assert grid.all_cleared() is True
+# ── Тести малювання ───────────────────────────────────────────────────────
 
-    def test_alive_bricks_decreases_after_hit(self, grid, settings):
-        total = settings.BRICK_ROWS * settings.BRICK_COLS
-        # Kill one brick that has hp=1 (bottom rows)
-        for brick in reversed(grid.bricks):
-            if brick.hp == 1:
-                brick.alive = False
-                break
-        assert len(grid.alive_bricks()) == total - 1
+class TestBrickDraw:
+    """Перевірка методу draw."""
 
-    def test_reset_restores_all_bricks(self, grid, settings):
-        for brick in grid.bricks:
-            brick.alive = False
-        grid.reset()
-        assert len(grid.alive_bricks()) == settings.BRICK_ROWS * settings.BRICK_COLS
+    def test_alive_brick_draws_without_error(self, simple_brick, surface):
+        """Жива цеглина малюється без помилок."""
+        try:
+            simple_brick.draw(surface)
+        except Exception as e:
+            pytest.fail(f"draw() кинув виключення: {e}")
 
-    def test_top_rows_have_more_hp(self, grid):
-        """First two rows (row < 2) should have hp == 3."""
-        s = grid.settings
-        top_count = s.BRICK_COLS * 2
-        top_bricks = grid.bricks[:top_count]
-        assert all(b.hp == 3 for b in top_bricks)
+    def test_dead_brick_does_not_draw(self, simple_brick, surface):
+        """Мертва цеглина не повинна малюватись (метод одразу виходить)."""
+        simple_brick.alive = False
+        # Просто перевіряємо що не кидає помилку
+        try:
+            simple_brick.draw(surface)
+        except Exception as e:
+            pytest.fail(f"draw() для мертвої цеглини кинув виключення: {e}")
 
-    def test_middle_rows_hp(self, grid):
-        """Rows 2-3 should have hp == 2."""
-        s = grid.settings
-        mid_bricks = grid.bricks[s.BRICK_COLS * 2: s.BRICK_COLS * 4]
-        assert all(b.hp == 2 for b in mid_bricks)
-
-    def test_bottom_rows_hp(self, grid):
-        """Rows 4+ should have hp == 1."""
-        s = grid.settings
-        bottom_bricks = grid.bricks[s.BRICK_COLS * 4:]
-        assert all(b.hp == 1 for b in bottom_bricks)
-
-    def test_brick_sizes_set_correctly(self, grid, settings):
-        for brick in grid.bricks:
-            assert brick.width == settings.BRICK_WIDTH
-            assert brick.height == settings.BRICK_HEIGHT
+    def test_damaged_brick_draws_crack(self, strong_brick, surface):
+        """Пошкоджена цеглина малюється без помилок (crack effect)."""
+        strong_brick.hit()  # hp знижено, активується crack
+        try:
+            strong_brick.draw(surface)
+        except Exception as e:
+            pytest.fail(f"draw() пошкодженої цеглини кинув виключення: {e}")

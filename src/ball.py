@@ -8,9 +8,8 @@ import pygame
 import math
 import random
 
+
 # Ball: handles movement and physics
-
-
 class Ball:
     """Represents the game ball with physics."""
 
@@ -23,8 +22,8 @@ class Ball:
     def reset(self):
         """Reset ball to starting position above paddle."""
         self.x = self.settings.SCREEN_WIDTH / 2
-        offset = self.settings.PADDLE_Y_OFFSET + self.settings.PADDLE_HEIGHT
-        self.y = self.settings.SCREEN_HEIGHT - offset - self.radius - 5
+        self.y = (self.settings.SCREEN_HEIGHT - self.settings.PADDLE_Y_OFFSET
+                  - self.settings.PADDLE_HEIGHT - self.radius - 5)
         angle = random.uniform(math.radians(210), math.radians(330))
         speed = self.settings.ball_speed
         self.vx = speed * math.cos(angle)
